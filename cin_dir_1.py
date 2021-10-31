@@ -105,9 +105,9 @@ th3 = p[2]
 # Parámetros D-H:
 #        1    2     3
 d  = [   5,  l2,    0]
-th = [ th1,  90, -th3]
+th = [ th1,  90, th3]
 a  = [   0,   0,    2]
-al = [  90, -90,    0]
+al = [  90,  90,   0]
 
 # Orígenes para cada articulación
 o00=[0,0,0,1]
