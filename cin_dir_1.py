@@ -98,11 +98,14 @@ if len(sys.argv) != nvar+1:
   sys.exit('El número de articulaciones no es el correcto ('+str(nvar)+')')
 p=[float(i) for i in sys.argv[1:nvar+1]]
 
+l1 = p[0]
+th2 = p[1]
+
 # Parámetros D-H:
 #        1    2
-d  = [   0,   0]
-th = [p[0],p[1]]
-a  = [  10,   5]
+d  = [   l1,   0]
+th = [  -90, th2 + 90]
+a  = [  0,   5]
 al = [   0,   0]
 
 # Orígenes para cada articulación
