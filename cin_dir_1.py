@@ -144,8 +144,13 @@ o40 = np.dot(T04, o44).tolist()
 o510 = np.dot(T051, o5151).tolist()
 o520 = np.dot(T052, o5252).tolist()
 
+# Efector
+# Punto donde se van a cerrar las pinzas (respecto a O4)
+ef4 = [0, 2, 0, 1]
+ef0 = np.dot(T04, ef4).tolist()
+
 # Mostrar resultado de la cinemática directa
-muestra_origenes([o00,o10,o20,o30,o40,o510,o520])
-muestra_robot   ([o00,o10,o20,o30,o40,o510,o520])
+muestra_origenes([o00,o10,o20,o30,o40,[[o510],[o520]]], ef0)
+muestra_robot   ([o00,o10,o20,o30,o40,[[o510],[o520]]], ef0)
 input()
 
