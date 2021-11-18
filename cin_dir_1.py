@@ -93,43 +93,43 @@ def matriz_T(d,theta,a,alpha):
 
 plt.ion() # Modo interactivo
 # Introducción de los valores de las articulaciones
-nvar=2 # Número de variables
+nvar=3 # Número de variables
 if len(sys.argv) != nvar+1:
   sys.exit('El número de articulaciones no es el correcto ('+str(nvar)+')')
 p=[float(i) for i in sys.argv[1:nvar+1]]
 
 q0 = p[0]
 q1 = p[1]
-
+q2 = p[2]
 
 # Parámetros D-H:
-#        01         21   
-d  = [    5,         0    ]
-th = [   q0,         0    ]
-a  = [    0,        q1    ]
-al = [    0,         0    ]
+#        01         12      23
+d  = [    5,         0,    -q2]
+th = [   q0,         0,    180]
+a  = [    0,        q1,      0]
+al = [    0,         0,     90]
 
 # Orígenes para cada articulación
 o00=[0,0,0,1]
 o11=[0,0,0,1]
 o22=[0,0,0,1]
-
+o33=[0,0,0,1]
 
 # Cálculo matrices transformación
 T01=matriz_T(d[0],th[0],a[0],al[0])
-T21=matriz_T(d[1],th[1],a[1],al[1])
+T12=matriz_T(d[1],th[1],a[1],al[1])
+T23=matriz_T(d[2],th[2],a[2],al[2])
 
-
-T02 = np.dot(T01, T21)
-
+T02 = np.dot(T01, T12)
+T03 = np.dot(T02, T23)
 
 # Transformación de cada articulación
 o10 =np.dot(T01, o11).tolist()
 o20 =np.dot(T02, o22).tolist()
-
+o30 =np.dot(T03, o33).tolist()
 
 # Mostrar resultado de la cinemática directa
-origenes = [o00,o10, o20]
+origenes = [o00,o10, o20, o30]
 muestra_origenes(origenes)
 muestra_robot   (origenes)
 input()
