@@ -93,34 +93,36 @@ def matriz_T(d,theta,a,alpha):
 
 plt.ion() # Modo interactivo
 # Introducción de los valores de las articulaciones
-nvar=1 # Número de variables
+nvar=2 # Número de variables
 if len(sys.argv) != nvar+1:
   sys.exit('El número de articulaciones no es el correcto ('+str(nvar)+')')
 p=[float(i) for i in sys.argv[1:nvar+1]]
 
 q0 = p[0]
-
+q1 = p[1]
 
 # Parámetros D-H:
-#              01 
-d  = [          4]
-th = [   -90 + q0]
-a  = [          0]
-al = [        -90]
+#              01,    12 
+d  = [          4,    q1]
+th = [   -90 + q0,     0]
+a  = [          0,     0]
+al = [        -90,     0]
 
 # Orígenes para cada articulación
 o00=[0,0,0,1]
 o11=[0,0,0,1]
+o22=[0,0,0,1]
 
 
 # Cálculo matrices transformación
 T01=matriz_T(d[0],th[0],a[0],al[0])
+T12=matriz_T(d[1],th[1],a[1],al[1])
 
-
+T02 = np.dot(T01, T12)
 
 # Transformación de cada articulación
 o10 =np.dot(T01, o11).tolist()
-
+o20 =np.dot(T02, o22).tolist()
 
 # Efector
 # Punto donde se van a cerrar las pinzas 
@@ -128,7 +130,7 @@ o10 =np.dot(T01, o11).tolist()
 # ef0 = np.dot(T03, ef3).tolist()
 
 # Mostrar resultado de la cinemática directa
-origenes = [o00,o10]
+origenes = [o00, o10, o20]
 muestra_origenes(origenes)
 muestra_robot   (origenes)
 input()
