@@ -104,11 +104,11 @@ q2 = p[2]
 q3 = p[3]
 
 # Parámetros D-H:
-#        01         12,     23          341
-d  = [   q0,         0,     q2,           0]
-th = [    0,   q1 + 90,      0,    -90 - q3]
-a  = [    0,         2,      0,           1]
-al = [   90,        90,    -90,         -90]
+#        01         12,     23          341          342 
+d  = [   q0,         0,     q2,           0,           0]
+th = [    0,   q1 + 90,      0,    -90 - q3,    -90 + q3]
+a  = [    0,         2,      0,           1,           1]
+al = [   90,        90,    -90,         -90,         -90]
 
 # Orígenes para cada articulación
 o00=[0,0,0,1]
@@ -116,35 +116,35 @@ o11=[0,0,0,1]
 o22=[0,0,0,1]
 o33=[0,0,0,1]
 o4141=[0,0,0,1]
-
+o4242=[0,0,0,1]
 
 # Cálculo matrices transformación
 T01=matriz_T(d[0],th[0],a[0],al[0])
 T12=matriz_T(d[1],th[1],a[1],al[1])
 T23=matriz_T(d[2],th[2],a[2],al[2])
 T341=matriz_T(d[3],th[3],a[3],al[3])
-
+T342=matriz_T(d[4],th[4],a[4],al[4])
 
 T02 = np.dot(T01, T12)
 T03 = np.dot(T02, T23)
 T041 = np.dot(T03, T341)
-
+T042 = np.dot(T03, T342)
 
 # Transformación de cada articulación
 o10 =np.dot(T01, o11).tolist()
 o20 = np.dot(T02, o22).tolist()
 o30 = np.dot(T03, o33).tolist()
 o410 = np.dot(T041, o4141).tolist()
-
+o420 = np.dot(T042, o4242).tolist()
 
 # Efector
-# Punto donde se van a cerrar las pinzas (respecto a O4)
-# ef4 = [0, 2, 0, 1]
-# ef0 = np.dot(T04, ef4).tolist()
+# Punto donde se van a cerrar las pinzas 
+ef3 = [0, -1, 0, 1]
+ef0 = np.dot(T03, ef3).tolist()
 
 # Mostrar resultado de la cinemática directa
-origenes = [o00,o10, o20, o30, o410]
-muestra_origenes(origenes)
-muestra_robot   (origenes)
+origenes = [o00,o10, o20, o30, [[o410], [o420]]]
+muestra_origenes(origenes, ef0)
+muestra_robot   (origenes, ef0)
 input()
 
