@@ -102,11 +102,11 @@ q0 = p[0]
 
 
 # Parámetros D-H:
-#        01 
-d  = [   4]
-th = [   q0]
-a  = [    0]
-al = [    0]
+#              01 
+d  = [          4]
+th = [   -90 + q0]
+a  = [          0]
+al = [        -90]
 
 # Orígenes para cada articulación
 o00=[0,0,0,1]
